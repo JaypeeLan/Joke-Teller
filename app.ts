@@ -1,5 +1,5 @@
-const audioElement = document.getElementById("audio");
-const button = document.getElementById("button");
+const audioElement = document.getElementById("audio")! as HTMLAudioElement;
+const button = document.getElementById("button")! as HTMLButtonElement;
 
 // Disable/enable button
 // Toggles between true or false
@@ -8,7 +8,7 @@ const toggleButton = () => {
 };
 
 // Passing  joke to voiceRSS API
-const triggerTextToSpeech = (joke) => {
+const triggerTextToSpeech = (joke: string) => {
   VoiceRSS.speech({
     key: "05652e1295764cb3ae5be8959712fdac",
     src: joke,
@@ -32,10 +32,10 @@ const tellJokes = async () => {
     const data = await res.json();
 
     // if the joke is a two-part joke
-    if (data.setup) {
+    if (data?.setup) {
       jokes = `${data.setup} ...  ${data.delivery}`;
     } else {
-      jokes = data.joke;
+      jokes = data?.joke;
     }
     // send joke to text-to-speech
     triggerTextToSpeech(jokes);
@@ -43,7 +43,7 @@ const tellJokes = async () => {
     // disable button while the joke is being told
     toggleButton();
   } catch (error) {
-    alert("Error: ", error);
+    alert("Error: " + error);
   }
 };
 
